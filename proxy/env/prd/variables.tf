@@ -1,5 +1,6 @@
 variable "group_name" {
   type = string
+  description = "base name for resource name"
 }
 
 variable "aws_access_key_id" {
@@ -10,11 +11,6 @@ variable "aws_access_key_id" {
 variable "aws_secret_access_key" {
   type        = string
   description = "AWS_SECRET_ACCESS_KEY"
-}
-
-variable "aws_assume_role" {
-  type        = string
-  description = "Assume role for deployment"
 }
 
 variable "ssh_public_key" {
