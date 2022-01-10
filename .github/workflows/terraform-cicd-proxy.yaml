@@ -62,7 +62,7 @@ jobs:
       - id: fmt
         name: Terraform Check
         working-directory: "./proxy"
-        run: terraform fmt -diff -check -recursive
+        run: terraform fmt -diff -recursive
 
       - id: init
         name: Terraform Init

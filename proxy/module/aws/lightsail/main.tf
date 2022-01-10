@@ -13,7 +13,8 @@ resource "aws_lightsail_instance" "instance" {
   availability_zone = var.availability_zone
   blueprint_id      = local.blueprint_id
   bundle_id         = local.bundle_id
-  tags              = {
+
+  tags = {
     group : var.tag_group
   }
 }

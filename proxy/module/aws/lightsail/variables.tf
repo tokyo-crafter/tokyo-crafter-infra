@@ -10,7 +10,7 @@ variable "tag_group" {
 }
 
 variable "key_pair_name" {
-  type = string
+  type        = string
   description = "key pair name applying to lightsail instance"
 }
 
