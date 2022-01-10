@@ -1,0 +1,17 @@
+name: tflint
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+jobs:
+  tflint:
+    name: tflint
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          fail_on_error: true
