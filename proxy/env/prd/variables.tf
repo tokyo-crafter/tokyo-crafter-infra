@@ -1,5 +1,5 @@
 variable "group_name" {
-  type = string
+  type        = string
   description = "base name for resource name"
 }
 
