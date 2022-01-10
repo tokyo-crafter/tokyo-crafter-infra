@@ -1,0 +1,127 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - "proxy/**"
+  pull_request:
+    branches:
+      - master
+      - develop
+    types:
+      - opened
+      - synchronize
+    paths:
+      - "proxy/**"
+
+jobs:
+  preparation:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.check_environment.outputs.environment }}
+    steps:
+      - id: check_environment
+        name: check environment
+        shell: bash
+        run: |
+          if [[ ${{ github.event_name }} == 'push' ]]; then
+            BRANCH=${GITHUB_REF#refs/heads/};
+          else
+            BRANCH=${GITHUB_HEAD_REF#refs/heads/};
+          fi
+
+          if [[ $BRANCH == "master" ]]; then
+            ENVIRONMENT="prd";
+          else
+            ENVIRONMENT="dev";
+          fi
+
+          echo "ENVIRONMENT = $ENVIRONMENT"
+          echo "::set-output name=environemnt::$ENVIRONMENT"
+
+  terraform:
+    name: Terraform
+    needs:
+      - preparation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: "./proxy/env/${{ env.environment }}"
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - id: fmt
+        name: Terraform Check
+        run: terraform fmt -check -recursive
+
+      - id: init
+        name: Terraform Init
+        run: terraform init
+
+      - id: validate
+        name: Terraform Validate
+        run: terraform validate -no-color
+
+      - id: tfvars
+        name: Setup .tfvars
+        run: |
+          cat <<EOF > terraform.tfvars
+            group_name = ${{ secrets.GROUP_NAME }}
+            aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            ssh_public_key = ${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}
+            ssh_private_key = ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          EOF
+
+      - id: plan
+        name: Terraform Plan
+        run: terraform plan -no-color -
+        continue-on-error: true
+
+      - uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outputs.stdout }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - id: status
+        name: check plan status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - id: apply
+        name: apply
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve
