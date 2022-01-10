@@ -22,7 +22,7 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 
 ## create lightsail instance
 module "lightsail" {
-  for_each = {for instance in local.instances : instance["name"] => instance}
+  for_each = { for instance in local.instances : instance["name"] => instance }
 
   source = "../lightsail"
 
