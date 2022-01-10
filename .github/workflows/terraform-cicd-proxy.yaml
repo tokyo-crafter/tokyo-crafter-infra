@@ -76,11 +76,11 @@ jobs:
         name: Setup .tfvars
         run: |
           cat <<EOF > terraform.tfvars
-            group_name = ${{ secrets.GROUP_NAME }}
-            aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            ssh_public_key = ${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}
-            ssh_private_key = ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+            group_name            = "${{ secrets.GROUP_NAME }}"
+            aws_access_key_id     = "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            aws_secret_access_key = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            ssh_public_key        = "${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}"
+            ssh_private_key       = "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
           EOF
 
       - id: plan
