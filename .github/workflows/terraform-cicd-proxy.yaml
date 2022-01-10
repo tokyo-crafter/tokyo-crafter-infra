@@ -16,6 +16,7 @@ on:
       - synchronize
     paths:
       - "proxy/**"
+  workflow_dispatch:
 
 jobs:
   preparation:
@@ -28,10 +29,10 @@ jobs:
         name: check environment
         shell: bash
         run: |
-          if [[ ${{ github.event_name }} == 'push' ]]; then
-            BRANCH=${GITHUB_REF#refs/heads/};
-          else
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
             BRANCH=${GITHUB_HEAD_REF#refs/heads/};
+          else
+            BRANCH=${GITHUB_REF#refs/heads/};
           fi
 
           if [[ $BRANCH == "master" ]]; then
@@ -82,11 +83,13 @@ jobs:
             ssh_public_key        = "${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}"
             ssh_private_key       = "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
           EOF
-          
+
 
       - id: plan
         name: Terraform Plan
-        run: terraform plan -no-color
+        run: |
+          export TF_LOG=DEBUG
+          terraform plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
