@@ -42,13 +42,15 @@ jobs:
           fi
 
           echo "ENVIRONMENT = $ENVIRONMENT"
-          echo "::set-output name=environemnt::$ENVIRONMENT"
+          echo "::set-output name=environment::$ENVIRONMENT"
 
   terraform:
     name: Terraform
     needs:
       - preparation
     runs-on: ubuntu-latest
+    env:
+      environment: ${{ needs.preparation.outputs.environment }}
     defaults:
       run:
         shell: bash
