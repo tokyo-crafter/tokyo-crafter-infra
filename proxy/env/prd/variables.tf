@@ -1,6 +1,6 @@
 variable "group_name" {
   type        = string
-  description = "base name for resource name"
+  description = "base name for resource name."
 }
 
 variable "aws_access_key_id" {
