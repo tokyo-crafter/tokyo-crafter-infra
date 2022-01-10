@@ -1,3 +1,7 @@
+variable "group_name" {
+  type = string
+}
+
 variable "aws_access_key_id" {
   type        = string
   description = "AWS_ACCESS_KEY_ID"
