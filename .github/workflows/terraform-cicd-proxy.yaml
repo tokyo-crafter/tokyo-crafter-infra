@@ -82,6 +82,7 @@ jobs:
             ssh_public_key        = "${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}"
             ssh_private_key       = "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
           EOF
+          
 
       - id: plan
         name: Terraform Plan
