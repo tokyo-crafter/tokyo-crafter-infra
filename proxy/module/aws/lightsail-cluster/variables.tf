@@ -20,7 +20,7 @@ variable "tag_group" {
   description = "group name"
 }
 
-variable "lightsail_instance_count" {
+variable "instance_count" {
   type        = number
   default     = 1
   description = "instance count"

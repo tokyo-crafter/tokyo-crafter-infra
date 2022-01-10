@@ -29,6 +29,7 @@ module "aws-lightsail" {
   aws_secret_access_key = var.aws_secret_access_key
   instance_name_prefix  = var.group_name + "-proxy"
   tag_group             = var.group_name
+  instance_count        = 1
   ssh_public_key        = var.ssh_public_key
   ssh_private_key       = var.ssh_private_key
 }

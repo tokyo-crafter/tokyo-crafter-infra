@@ -2,7 +2,7 @@
 locals {
   # Availability zones in ap-northeast-1
   zones          = ["a", "b", "c"]
-  instance_idxes = range(var.lightsail_instance_count)
+  instance_idxes = range(var.instance_count)
 
   # instance
   instances = [
