@@ -49,7 +49,7 @@ resource "aws_lightsail_instance_public_ports" "firewall" {
 
 ## provisioner
 resource "null_resource" "provisioner" {
-  depends_on = [aws_lightsail_static_ip_attachment, aws_lightsail_instance_public_ports.firewall]
+  depends_on = [aws_lightsail_static_ip_attachment.attach-static-ip, aws_lightsail_instance_public_ports.firewall]
 
   connection {
     type        = "ssh"
