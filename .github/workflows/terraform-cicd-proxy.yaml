@@ -62,6 +62,10 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+      - id: env
+        name: set environment properties
+        run: export TF_LOG=DEBUG
+
       - id: fmt
         name: Terraform Check
         working-directory: "./proxy"
@@ -69,6 +73,7 @@ jobs:
 
       - id: init
         name: Terraform Init
+        working-directory: "./proxy"
         run: terraform init
 
       - id: validate
@@ -90,9 +95,7 @@ jobs:
 
       - id: plan
         name: Terraform Plan
-        run: |
-          export TF_LOG=DEBUG
-          terraform plan -no-color
+        run: terraform plan -no-color
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
