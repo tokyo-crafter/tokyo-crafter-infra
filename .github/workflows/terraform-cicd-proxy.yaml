@@ -59,17 +59,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - id: switch workspace
+        name: Switch terraform cloud workspace
+        run: | 
+          sed -i 's/name = "proxy-dev"/name = "proxy-${{ env.environment }}"/g' main.tf
+          head -n 12 main.tf
+          echo "..."
+
       - uses: hashicorp/setup-terraform@v1
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - id: env
-        name: set environment properties
-        run: | 
-          # enable debug
-          export TF_LOG=DEBUG
-          # switch workspace
-          sed -i 's/name = "proxy-dev"/name = "proxy-${{ env.environment }}"/g' main.tf
+      - id: debug mode
+        if: env.environment == 'dev'
+        name: Set environment variables
+        run: export TF_LOG=DEBUG
 
       - id: fmt
         name: Terraform Check

@@ -3,7 +3,7 @@ locals {
   bundle_id      = "nano_2_0"
   blueprint_id   = "amazon_linux_2"
   ssh_user       = "ec2-user"
-  static_ip_name = var.instance_name + "-" + "ip"
+  static_ip_name = join("-", [var.instance_name, "ip"])
 }
 
 ## create instance

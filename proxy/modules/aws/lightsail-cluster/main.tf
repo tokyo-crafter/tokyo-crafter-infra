@@ -10,7 +10,7 @@ locals {
     # ${var.instance_name_prefix}-a-1, ${var.instance_name_prefix}-b-1, ${var.instance_name_prefix}-c-1, ${var.instance_name_prefix}-a-2, ...
     name  = var.instance_name_prefix + "-" + zones[i % length(zones)] + "-" + (i / length(zones) + 1)
     # a
-    az    = var.reg + zones[i % length(zones)]
+    az    = var.region + zones[i % length(zones)]
     index = i
   }
   ]

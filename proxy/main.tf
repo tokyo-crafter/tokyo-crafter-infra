@@ -24,7 +24,7 @@ provider "aws" {
 module "lightsail-cluster" {
   source = "./modules/aws/lightsail-cluster"
 
-  instance_name_prefix = var.group_name + "-proxy"
+  instance_name_prefix = join("-", [var.group_name, var.environment, "proxy"])
   region               = var.aws_region
   tag_group            = var.group_name
   instance_count       = var.proxy_replicas
