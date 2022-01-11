@@ -13,6 +13,11 @@ variable "aws_secret_access_key" {
   description = "AWS_SECRET_ACCESS_KEY"
 }
 
+variable "aws_region" {
+  type    = string
+  default = "aws region"
+}
+
 variable "ssh_public_key" {
   type        = string
   description = "public key to install lightsail instance"

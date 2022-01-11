@@ -80,6 +80,7 @@ jobs:
         run: |
           cat <<EOF > terraform.tfvars
             group_name            = "${{ secrets.GROUP_NAME }}"
+            aws_region            = "${{ secrets.AWS_REGION }}"
             aws_access_key_id     = "${{ secrets.AWS_ACCESS_KEY_ID }}"
             aws_secret_access_key = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             ssh_public_key        = "${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}"
