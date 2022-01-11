@@ -21,4 +21,3 @@ sudo systemctl enable containerd.service
 
 sudo systemctl start containerd
 sudo systemctl start docker
-

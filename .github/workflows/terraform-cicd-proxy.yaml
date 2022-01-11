@@ -68,22 +68,18 @@ jobs:
 
       - id: fmt
         name: Terraform Check
-        working-directory: "./proxy"
         run: terraform fmt -diff -recursive
 
       - id: init
         name: Terraform Init
-        working-directory: "./proxy"
         run: terraform init
 
       - id: get
         name: Terraform Load Modules
-        working-directory: "./proxy"
         run: terraform get
 
       - id: validate
         name: Terraform Validate
-        working-directory: "./proxy"
         run: terraform validate -no-color
 
       - id: tfvars
