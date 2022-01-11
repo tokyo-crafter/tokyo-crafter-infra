@@ -3,7 +3,7 @@ terraform {
     organization = "tokyo-crafter"
 
     workspaces {
-      name = "proxy-" + var.environment
+      name = "proxy-dev"
     }
   }
 

@@ -1,9 +1,4 @@
 ### input variables
-variable "environment" {
-  type        = string
-  description = "environment"
-}
-
 variable "group_name" {
   type        = string
   description = "base name for resource name"

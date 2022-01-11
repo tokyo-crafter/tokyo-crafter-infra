@@ -14,6 +14,7 @@ on:
     types:
       - opened
       - synchronize
+      - reopened
     paths:
       - "proxy/**"
   workflow_dispatch:
@@ -64,7 +65,11 @@ jobs:
 
       - id: env
         name: set environment properties
-        run: export TF_LOG=DEBUG
+        run: | 
+          # enable debug
+          export TF_LOG=DEBUG
+          # switch workspace
+          sed -i 's/name = "proxy-dev"/name = "proxy-${{ env.environment }}"/g' main.tf
 
       - id: fmt
         name: Terraform Check
@@ -86,7 +91,6 @@ jobs:
         name: Setup terraform.tfvars
         run: |
           cat <<EOF > terraform.tfvars
-            environment           = "${{ env.environment }}"
             group_name            = "${{ secrets.GROUP_NAME }}"
             aws_region            = "${{ secrets.AWS_REGION }}"
             aws_access_key_id     = "${{ secrets.AWS_ACCESS_KEY_ID }}"
@@ -98,7 +102,7 @@ jobs:
 
       - id: plan
         name: Terraform Plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -var-file=./environment/${{ env.environment }}.tfvars
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
@@ -138,4 +142,4 @@ jobs:
       - id: apply
         name: apply
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file=./environment/${{ env.environment }}.tfvars
