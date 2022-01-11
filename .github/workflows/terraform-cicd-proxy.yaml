@@ -111,7 +111,10 @@ jobs:
 
       - id: plan
         name: Terraform Plan
-        run: terraform plan -no-color -var-file=./environments/${{ env.environment }}.tfvars
+        run: | 
+          terraform plan -no-color \
+            -var-file=./terraform.tfvars \
+            -var-file=./environments/${{ env.environment }}.tfvars
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
@@ -151,4 +154,7 @@ jobs:
       - id: apply
         name: apply
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve -var-file=./environments/${{ env.environment }}.tfvars
+        run: | 
+          terraform apply -auto-approve \
+            -var-file=./terraform.tfvars \
+            -var-file=./environments/${{ env.environment }}.tfvars
