@@ -76,6 +76,11 @@ jobs:
         working-directory: "./proxy"
         run: terraform init
 
+      - id: get
+        name: Terraform Load Modules
+        working-directory: "./proxy"
+        run: terraform get
+
       - id: validate
         name: Terraform Validate
         run: terraform validate -no-color
