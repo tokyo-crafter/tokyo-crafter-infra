@@ -1,21 +1,23 @@
-variable "group_name" {
+# Lightsail
+variable "instance_name_prefix" {
   type        = string
-  description = "base name for resource name"
+  description = "instance name of lightsail"
 }
 
-variable "aws_access_key_id" {
+variable "tag_group" {
   type        = string
-  description = "AWS_ACCESS_KEY_ID"
+  description = "group name"
 }
 
-variable "aws_secret_access_key" {
+variable "region" {
   type        = string
-  description = "AWS_SECRET_ACCESS_KEY"
+  description = "AWS region"
 }
 
-variable "aws_region" {
-  type    = string
-  default = "aws region"
+variable "instance_count" {
+  type        = number
+  default     = 1
+  description = "instance count"
 }
 
 variable "ssh_public_key" {

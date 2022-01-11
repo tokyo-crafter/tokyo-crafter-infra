@@ -3,7 +3,7 @@ terraform {
     organization = "tokyo-crafter"
 
     workspaces {
-      name = "proxy-dev"
+      name = "proxy-" + var.environment
     }
   }
 
@@ -22,11 +22,12 @@ provider "aws" {
 }
 
 module "lightsail-cluster" {
-  source = "../../module/aws/lightsail-cluster"
+  source = "./modules/aws/lightsail-cluster"
 
   instance_name_prefix = var.group_name + "-proxy"
+  region               = var.aws_region
   tag_group            = var.group_name
-  instance_count       = 1
+  instance_count       = var.proxy_replicas
   ssh_public_key       = var.ssh_public_key
   ssh_private_key      = var.ssh_private_key
 }

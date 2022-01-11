@@ -54,7 +54,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "./proxy/env/${{ env.environment }}"
+        working-directory: "./proxy"
     steps:
       - uses: actions/checkout@v2
 
@@ -83,9 +83,10 @@ jobs:
         run: terraform validate -no-color
 
       - id: tfvars
-        name: Setup .tfvars
+        name: Setup terraform.tfvars
         run: |
           cat <<EOF > terraform.tfvars
+            environment           = "${{ env.environment }}"
             group_name            = "${{ secrets.GROUP_NAME }}"
             aws_region            = "${{ secrets.AWS_REGION }}"
             aws_access_key_id     = "${{ secrets.AWS_ACCESS_KEY_ID }}"

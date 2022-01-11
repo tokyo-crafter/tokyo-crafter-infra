@@ -1,0 +1,7 @@
+# IDE
+.idea
+
+# Terraform
+.terraform
+terraform.tfstate.d
+terraform.tfvars

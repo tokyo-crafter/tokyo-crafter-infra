@@ -7,8 +7,10 @@ locals {
   # instance
   instances = [
   for i in local.instance_idxes : {
-    name  = var.instance_name_prefix + "-" + i
-    az    = zones[i % length(zones)]
+    # ${var.instance_name_prefix}-a-1, ${var.instance_name_prefix}-b-1, ${var.instance_name_prefix}-c-1, ${var.instance_name_prefix}-a-2, ...
+    name  = var.instance_name_prefix + "-" + zones[i % length(zones)] + "-" + (i / length(zones) + 1)
+    # a
+    az    = var.reg + zones[i % length(zones)]
     index = i
   }
   ]
@@ -22,7 +24,7 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 
 ## create lightsail instance
 module "lightsail" {
-  for_each = { for instance in local.instances : instance["name"] => instance }
+  for_each = {for instance in local.instances : instance["name"] => instance}
 
   source = "../lightsail"
 

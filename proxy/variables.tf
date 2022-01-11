@@ -1,6 +1,12 @@
+### input variables
+variable "environment" {
+  type        = string
+  description = "environment"
+}
+
 variable "group_name" {
   type        = string
-  description = "base name for resource name."
+  description = "base name for resource name"
 }
 
 variable "aws_access_key_id" {
@@ -26,4 +32,10 @@ variable "ssh_public_key" {
 variable "ssh_private_key" {
   type        = string
   description = "private key to connect lightsail instance"
+}
+
+### environment variables
+variable "proxy_replicas" {
+  type        = number
+  description = "proxy replica count"
 }
