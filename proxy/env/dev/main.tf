@@ -21,7 +21,7 @@ provider "aws" {
   secret_key = var.aws_secret_access_key
 }
 
-module "aws-lightsail" {
+module "lightsail-cluster" {
   source = "../../module/aws/lightsail-cluster"
 
   instance_name_prefix = var.group_name + "-proxy"
