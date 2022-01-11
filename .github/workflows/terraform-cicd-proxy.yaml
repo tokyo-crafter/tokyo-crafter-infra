@@ -44,6 +44,11 @@ jobs:
 
           echo "ENVIRONMENT = $ENVIRONMENT"
           echo "::set-output name=environment::$ENVIRONMENT"
+      - id: check_secret
+        name: check secret is defined
+        shell: bash
+        run: |
+          echo "TF_API_TOKEN = ${{ secrets.TF_API_TOKEN }}" # TF_API_TOKEN = ***
 
   terraform:
     name: Terraform
@@ -59,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - id: switch workspace
+      - id: switch_workspace
         name: Switch terraform cloud workspace
         run: | 
           sed -i 's/name = "proxy-dev"/name = "proxy-${{ env.environment }}"/g' main.tf
@@ -70,7 +75,7 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - id: debug mode
+      - id: enable_debug_mode
         if: env.environment == 'dev'
         name: Set environment variables
         run: export TF_LOG=DEBUG

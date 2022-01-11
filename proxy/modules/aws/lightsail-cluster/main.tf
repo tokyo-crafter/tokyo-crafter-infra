@@ -9,7 +9,7 @@ locals {
   for i in local.instance_idxes : {
     # ${var.instance_name_prefix}-a-1, ${var.instance_name_prefix}-b-1, ${var.instance_name_prefix}-c-1, ${var.instance_name_prefix}-a-2, ...
     name  = var.instance_name_prefix + "-" + zones[i % length(zones)] + "-" + (i / length(zones) + 1)
-    # a
+    # ap-northeast-1a, ap-northeast-1b, ap-northeast-1c
     az    = var.region + zones[i % length(zones)]
     index = i
   }
