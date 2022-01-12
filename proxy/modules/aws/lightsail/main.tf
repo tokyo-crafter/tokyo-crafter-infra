@@ -60,7 +60,7 @@ resource "null_resource" "provisioner" {
 
   # copy setup script to remote
   provisioner "file" {
-    source      = "setup.sh"
+    source      = "modules/aws/lightsail/setup.sh"
     destination = "/tmp/setup.sh"
   }
 
