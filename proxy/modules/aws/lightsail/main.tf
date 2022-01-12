@@ -67,8 +67,6 @@ resource "null_resource" "provisioner" {
   }
 
   provisioner "local-exec" {
-    inline = [
-      "ansible-playbook -u ${self.connection.user} -i ${self.connection.host} --private-key ${var.ssh_private_key_file_path} ./playbook/amazonlinux2-docker-install.yaml"
-    ]
+    command = "ansible-playbook -u ${self.connection.user} -i ${self.connection.host} --private-key ${var.ssh_private_key_file_path} ./playbook/amazonlinux2-docker-install.yaml"
   }
 }
