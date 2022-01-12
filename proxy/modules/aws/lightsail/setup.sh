@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # update packages
-sudo yum -y update
+sudo yum -update -y
+
+# remove docker-ce in yum.repos.d/
+sudo rm /etc/yum.repos.d/docker-ce.repo
 
 # install docker
-sudo yum install -y yum-utils
+sudo yum install yum-utils amazon-linux-extras -y
 sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
-sudo yum install docker-ce docker-ce-cli containerd.io
+sudo amazon-linux-extras docker -y
 
 sudo groupadd docker
 sudo usermod -aG docker $USER
@@ -21,3 +24,6 @@ sudo systemctl enable containerd.service
 
 sudo systemctl start containerd
 sudo systemctl start docker
+
+# check docker info
+docker info
