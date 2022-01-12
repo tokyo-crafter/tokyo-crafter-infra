@@ -1,2 +1,2 @@
-environment = "dev"
-proxy_replicas = 0 #delete
+environment    = "dev"
+proxy_replicas = 1
