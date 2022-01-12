@@ -14,7 +14,7 @@ locals {
   }
   ]
 
-  private_key_file = "private_key.pem"
+  private_key_file_name = "private_key.pem"
 }
 
 ## define ssh key
@@ -25,7 +25,7 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 
 ## create private_key file
 resource "local_file" "private_key" {
-  filename          = local.private_key_file
+  filename          = local.private_key_file_name
   sensitive_content = var.ssh_private_key
 }
 
@@ -39,5 +39,5 @@ module "lightsail" {
   availability_zone         = each.value["az"]
   tag_group                 = var.tag_group
   key_pair_name             = aws_lightsail_key_pair.ssh-key.name
-  ssh_private_key_file_name = local.private_key_file
+  ssh_private_key_file_path = "../lightsail-cluster/${local.private_key_file_name}"
 }

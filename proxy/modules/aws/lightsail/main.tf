@@ -55,7 +55,7 @@ resource "null_resource" "provisioner" {
     type        = "ssh"
     host        = aws_lightsail_instance.instance.public_ip_address
     user        = aws_lightsail_instance.instance.username
-    private_key = file(var.ssh_private_key_file_name)
+    private_key = file(var.ssh_private_key_file_path)
     timeout     = "2m"
   }
 
