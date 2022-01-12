@@ -21,7 +21,8 @@ provider "aws" {
   secret_key = var.aws_secret_access_key
 }
 
-module "lightsail-cluster" {
+# create instance and install docker
+module "proxy-instance" {
   source = "./modules/aws/lightsail-cluster"
 
   instance_name_prefix = join("-", [var.group_name, var.environment, "proxy"])
@@ -31,3 +32,7 @@ module "lightsail-cluster" {
   ssh_public_key       = var.ssh_public_key
   ssh_private_key      = var.ssh_private_key
 }
+
+# TODO provision docker
+
+# TODO apply to cloudflare DNS

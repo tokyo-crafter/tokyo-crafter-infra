@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# update packages
-sudo yum update -y
-
 # remove docker-ce in yum.repos.d/
 sudo rm -f /etc/yum.repos.d/docker-ce.repo
 sudo yum update -y
