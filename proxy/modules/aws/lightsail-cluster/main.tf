@@ -26,7 +26,7 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 ## create private_key file
 resource "local_file" "private_key" {
   filename          = "/secrets/ssh/${local.private_key_file_name}"
-  sensitive_content = var.ssh_private_key
+  sensitive_content = replace(var.ssh_private_key, "\\n", "\n")
 
   provisioner "local-exec" {
     command = "chmod 0600 /secrets/ssh/${local.private_key_file_name}"
