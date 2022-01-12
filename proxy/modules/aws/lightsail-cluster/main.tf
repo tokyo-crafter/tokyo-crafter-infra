@@ -8,10 +8,9 @@ locals {
   instances = [
   for i in local.instance_idxes : {
     # ${var.instance_name_prefix}-a-1, ${var.instance_name_prefix}-b-1, ${var.instance_name_prefix}-c-1, ${var.instance_name_prefix}-a-2, ...
-    name  = join("-", [var.instance_name_prefix, local.zones[i % length(local.zones)], i / length(local.zones) + 1])
+    name = join("-", [var.instance_name_prefix, local.zones[i % length(local.zones)], i / length(local.zones) + 1])
     # ap-northeast-1a, ap-northeast-1b, ap-northeast-1c
-    az    = var.region + local.zones[i % length(local.zones)]
-    index = i
+    az   = join("", [var.region, local.zones[i % length(local.zones)]])
   }
   ]
 }
