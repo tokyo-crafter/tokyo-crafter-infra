@@ -65,8 +65,4 @@ resource "null_resource" "provisioner" {
       "echo Done!"
     ]
   }
-
-  provisioner "local-exec" {
-    command = "ansible-playbook -u ${aws_lightsail_instance.instance.username} -i ${aws_lightsail_static_ip_attachment.attach-static-ip.ip_address} --private-key ${var.ssh_private_key_file_path} ./amazonlinux2-docker-install.yaml"
-  }
 }
