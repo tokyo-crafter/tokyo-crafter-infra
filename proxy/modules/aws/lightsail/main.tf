@@ -58,11 +58,8 @@ resource "null_resource" "provisioner" {
     timeout     = "1m"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum -y update",
-      "sudo yum -y install python3",
-      "echo Done!"
-    ]
+  # install docker
+  provisioner "local-exec" {
+    command = "ansible-playbook -u ${aws_lightsail_instance.instance.username} -i ${aws_lightsail_static_ip_attachment.attach-static-ip.ip_address} --private-key ${var.ssh_private_key_file_path} ./playbook/amazonlinux2-docker-install.yaml"
   }
 }
