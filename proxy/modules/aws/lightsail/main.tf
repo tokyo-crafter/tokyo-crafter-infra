@@ -55,7 +55,7 @@ resource "null_resource" "provisioner" {
     host        = aws_lightsail_static_ip_attachment.attach-static-ip.ip_address
     user        = aws_lightsail_instance.instance.username
     private_key = file(var.ssh_private_key_file_path)
-    timeout     = "10m"
+    timeout     = "1m"
   }
 
   provisioner "remote-exec" {
