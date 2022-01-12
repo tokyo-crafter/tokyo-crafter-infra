@@ -19,6 +19,11 @@ on:
       - "proxy/**"
   workflow_dispatch:
 
+permissions:
+  pull-requests: write
+  id-token: write
+  contents: read
+
 jobs:
   preparation:
     name: Prepare
@@ -66,7 +71,7 @@ jobs:
 
       - id: switch_workspace
         name: Switch terraform cloud workspace
-        run: | 
+        run: |
           sed -i 's/name = "proxy-dev"/name = "proxy-${{ env.environment }}"/g' main.tf
           head -n 12 main.tf
           echo "..."
@@ -111,7 +116,7 @@ jobs:
 
       - id: plan
         name: Terraform Plan
-        run: | 
+        run: |
           terraform plan -no-color \
             -var-file=./terraform.tfvars \
             -var-file=./environments/${{ env.environment }}.tfvars
@@ -153,7 +158,7 @@ jobs:
       - id: apply
         name: apply
         if: github.event_name == 'push'
-        run: | 
+        run: |
           terraform apply -auto-approve \
             -var-file=./terraform.tfvars \
             -var-file=./environments/${{ env.environment }}.tfvars
