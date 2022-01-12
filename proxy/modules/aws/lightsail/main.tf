@@ -58,15 +58,17 @@ resource "null_resource" "provisioner" {
     timeout     = "10m"
   }
 
-  provisioner "file" {
-    source      = "setup.sh"
-    destination = "/tmp/setup.sh"
-  }
-
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/setup.sh",
-      "/tmp/setup.sh > /tmp/setup.log"
+      "sudo yum -y update",
+      "sudo yum -y install python3",
+      "echo Done!"
+    ]
+  }
+
+  provisioner "local-exec" {
+    inline = [
+      "ansible-playbook -u ${self.connection.user} -i ${self.connection.host} --private-key ${var.ssh_private_key_file_path} ./playbook/amazonlinux2-docker-install.yaml"
     ]
   }
 }
