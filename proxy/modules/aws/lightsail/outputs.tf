@@ -7,4 +7,5 @@ output "instance" {
 ## ssh user name
 output "ssh_user" {
   value = local.ssh_user
+  sensitive = true
 }
