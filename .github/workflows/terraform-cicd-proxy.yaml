@@ -162,7 +162,3 @@ jobs:
           terraform apply -auto-approve \
             -var-file=./terraform.tfvars \
             -var-file=./environments/${{ env.environment }}.tfvars
-
-      - id: outputs
-        name: Terraform Apply outputs
-        run: terraform output -json
