@@ -22,7 +22,7 @@ provider "aws" {
 }
 
 # create instance and install docker
-module "proxy-instance" {
+module "lightsail-cluster" {
   source = "./modules/aws/lightsail-cluster"
 
   instance_name_prefix = join("-", [var.group_name, var.environment, "proxy"])
