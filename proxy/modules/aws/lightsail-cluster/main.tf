@@ -31,10 +31,6 @@ resource "local_file" "private_key" {
   provisioner "local-exec" {
     command = "chmod 0600 ./${local.private_key_file_name}"
   }
-
-  provisioner "local-exec" {
-    command = "ls -lha"
-  }
 }
 
 ## create lightsail instance
