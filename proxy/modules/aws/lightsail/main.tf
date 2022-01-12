@@ -46,3 +46,29 @@ resource "aws_lightsail_instance_public_ports" "firewall" {
     to_port   = 22
   }
 }
+
+## provisioner
+resource "null_resource" "provisioner" {
+
+  connection {
+    type        = "ssh"
+    host        = aws_lightsail_static_ip_attachment.attach-static-ip.ip_address
+    user        = aws_lightsail_instance.instance.username
+    private_key = file(var.ssh_private_key_file_path)
+    timeout     = "1m"
+  }
+
+  # copy setup script to remote
+  provisioner "file" {
+    source      = "setup.sh"
+    destination = "/tmp/setup.sh"
+  }
+
+  # run setup script
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/setup.sh",
+      "/tmp/setup.sh"
+    ]
+  }
+}

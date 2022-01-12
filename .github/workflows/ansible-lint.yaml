@@ -1,0 +1,17 @@
+name: tflint
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Lint Ansible Playbook
+        uses: ansible/ansible-lint-action@master
+        with:
+          targets: "./proxy/playbook/"
+          args: "-q"
