@@ -61,6 +61,8 @@ jobs:
       run:
         shell: bash
         working-directory: "./proxy"
+    permissions:
+      issues: write
     steps:
       - uses: actions/checkout@v2
 
