@@ -13,6 +13,8 @@ locals {
     az   = join("", [var.region, local.zones[i % length(local.zones)]])
   }
   ]
+
+  private_key_file = "private_key.pem"
 }
 
 ## define ssh key
@@ -21,15 +23,21 @@ resource "aws_lightsail_key_pair" "ssh-key" {
   public_key = var.ssh_public_key
 }
 
+## create private_key file
+resource "local_file" "private_key" {
+  filename          = local.private_key_file
+  sensitive_content = var.ssh_private_key
+}
+
 ## create lightsail instance
 module "lightsail" {
   for_each = {for instance in local.instances : instance["name"] => instance}
 
   source = "../lightsail"
 
-  instance_name     = each.value["name"]
-  availability_zone = each.value["az"]
-  tag_group         = var.tag_group
-  key_pair_name     = aws_lightsail_key_pair.ssh-key.name
-  ssh_private_key   = var.ssh_private_key
+  instance_name             = each.value["name"]
+  availability_zone         = each.value["az"]
+  tag_group                 = var.tag_group
+  key_pair_name             = aws_lightsail_key_pair.ssh-key.name
+  ssh_private_key_file_name = local.private_key_file
 }

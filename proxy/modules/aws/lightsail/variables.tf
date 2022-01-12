@@ -19,7 +19,7 @@ variable "availability_zone" {
   description = "availability zone that lightsail located in"
 }
 
-variable "ssh_private_key" {
+variable "ssh_private_key_file_name" {
   type        = string
-  description = "private key to connect lightsail instance"
+  description = "private key file name"
 }
