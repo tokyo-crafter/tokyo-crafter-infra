@@ -49,14 +49,13 @@ resource "aws_lightsail_instance_public_ports" "firewall" {
 
 ## provisioner
 resource "null_resource" "provisioner" {
-  depends_on = [aws_lightsail_static_ip_attachment.attach-static-ip, aws_lightsail_instance_public_ports.firewall]
 
   connection {
     type        = "ssh"
-    host        = aws_lightsail_instance.instance.public_ip_address
+    host        = aws_lightsail_static_ip_attachment.attach-static-ip.ip_address
     user        = aws_lightsail_instance.instance.username
     private_key = file(var.ssh_private_key_file_path)
-    timeout     = "2m"
+    timeout     = "10m"
   }
 
   provisioner "file" {

@@ -27,6 +27,14 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 resource "local_file" "private_key" {
   filename          = local.private_key_file_name
   sensitive_content = var.ssh_private_key
+
+  provisioner "local-exec" {
+    command = "chmod 0600 ./${local.private_key_file_name}"
+  }
+
+  provisioner "local-exec" {
+    command = "ls -lha"
+  }
 }
 
 ## create lightsail instance
@@ -39,5 +47,5 @@ module "lightsail" {
   availability_zone         = each.value["az"]
   tag_group                 = var.tag_group
   key_pair_name             = aws_lightsail_key_pair.ssh-key.name
-  ssh_private_key_file_path = "../lightsail-cluster/${local.private_key_file_name}"
+  ssh_private_key_file_path = local.private_key_file_name
 }
