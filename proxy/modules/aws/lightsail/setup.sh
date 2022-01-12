@@ -9,10 +9,6 @@ sudo yum update -y
 
 # install docker
 sudo yum install yum-utils amazon-linux-extras -y
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-
 sudo amazon-linux-extras install docker -y
 
 sudo groupadd docker
