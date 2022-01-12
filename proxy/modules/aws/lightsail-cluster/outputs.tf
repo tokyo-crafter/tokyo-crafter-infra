@@ -6,6 +6,6 @@ output "public_ips" {
 
 ## SSH user
 output "ssh_user" {
-  value     = values(module.lightsail)[0].ssh_user
+  value     = length(values(module.lightsail)) > 0 ? values(module.lightsail)[0].ssh_user : ""
   sensitive = true
 }
