@@ -61,14 +61,6 @@ resource "null_resource" "provisioner" {
   provisioner "file" {
     source      = "setup.sh"
     destination = "/tmp/setup.sh"
-
-    connection {
-      type        = "ssh"
-      host        = aws_lightsail_static_ip_attachment.attach-static-ip.ip_address
-      user        = aws_lightsail_instance.instance.username
-      private_key = file(var.ssh_private_key_file_path)
-      timeout     = "10m"
-    }
   }
 
   provisioner "remote-exec" {
@@ -76,13 +68,5 @@ resource "null_resource" "provisioner" {
       "chmod +x /tmp/setup.sh",
       "/tmp/setup.sh > /tmp/setup.log"
     ]
-
-    connection {
-      type        = "ssh"
-      host        = aws_lightsail_static_ip_attachment.attach-static-ip.ip_address
-      user        = aws_lightsail_instance.instance.username
-      private_key = file(var.ssh_private_key_file_path)
-      timeout     = "10m"
-    }
   }
 }
