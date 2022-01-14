@@ -29,3 +29,23 @@ variable "ssh_private_key" {
   type        = string
   description = "private key to connect lightsail instance"
 }
+
+variable "vpn_user" {
+  type        = string
+  description = "vpn user"
+}
+
+variable "vpn_password" {
+  type        = string
+  description = "vpn password"
+}
+
+variable "vpn_psk" {
+  type        = string
+  description = "Pre-Shared Key"
+}
+
+variable "vpn_target_ip" {
+  type        = string
+  description = "vpn target"
+}

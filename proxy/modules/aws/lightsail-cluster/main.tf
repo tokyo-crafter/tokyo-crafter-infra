@@ -44,4 +44,8 @@ module "lightsail" {
   tag_group                 = var.tag_group
   key_pair_name             = aws_lightsail_key_pair.ssh-key.name
   ssh_private_key_file_path = local_file.private_key.filename
+  vpn_user                  = var.vpn_user
+  vpn_password              = var.vpn_password
+  vpn_psk                   = var.vpn_psk
+  vpn_target_ip             = var.vpn_target_ip
 }

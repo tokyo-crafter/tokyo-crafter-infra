@@ -110,6 +110,10 @@ jobs:
             aws_secret_access_key = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             ssh_public_key        = "${{ secrets.LIGHTSAIL_SSH_PUBLIC_KEY }}"
             ssh_private_key       = "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
+            vpn_user              = "${{ secrets.VPN_USER }}"
+            vpn_password          = "${{ secrets.VPN_PASSWORD }}"
+            vpn_psk               = "${{ secrets.VPN_PSK }}"
+            vpn_target_ip         = "${{ secrets.VPN_TARGET_IP }}"
           EOF
 
 

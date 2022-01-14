@@ -68,6 +68,11 @@ resource "null_resource" "provisioner" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/setup.sh",
+      "export VPN_USER=${var.vpn_user}",
+      "export VPN_PASSWORD=${var.vpn_password}",
+      "export VPN_PSK=${var.vpn_psk}",
+      "export VPN_TARGET_IP=${var.vpn_target_ip}",
+      "export VPN_TARGET_IP_ID=192.168.128.1",
       "/tmp/setup.sh"
     ]
   }
