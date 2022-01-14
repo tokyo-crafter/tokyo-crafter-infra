@@ -31,8 +31,10 @@ module "lightsail-cluster" {
   instance_count       = var.proxy_replicas
   ssh_public_key       = var.ssh_public_key
   ssh_private_key      = var.ssh_private_key
+  vpn_user             = var.vpn_user
+  vpn_password         = var.vpn_password
+  vpn_psk              = var.vpn_psk
+  vpn_target_ip        = var.vpn_target_ip
 }
-
-# TODO provision docker
 
 # TODO apply to cloudflare DNS

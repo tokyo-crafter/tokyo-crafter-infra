@@ -23,3 +23,23 @@ variable "ssh_private_key_file_path" {
   type        = string
   description = "private key file name"
 }
+
+variable "vpn_user" {
+  type        = string
+  description = "vpn user"
+}
+
+variable "vpn_password" {
+  type        = string
+  description = "vpn password"
+}
+
+variable "vpn_psk" {
+  type        = string
+  description = "Pre-Shared Key"
+}
+
+variable "vpn_target_ip" {
+  type        = string
+  description = "vpn target"
+}
