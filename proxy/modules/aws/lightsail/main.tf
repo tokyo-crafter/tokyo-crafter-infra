@@ -76,4 +76,19 @@ resource "null_resource" "provisioner" {
       "/tmp/setup.sh"
     ]
   }
+
+  # copy docker-compose template
+  provisioner "file" {
+    source      = "modules/aws/lightsail/docker"
+    destination = "/tmp/docker"
+  }
+
+  # run docker-compose
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/docker /opt/docker",
+      "cd /opt/docker",
+      "docker-compose up -d"
+    ]
+  }
 }
