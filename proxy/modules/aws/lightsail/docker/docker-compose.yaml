@@ -1,0 +1,76 @@
+version: "3.9"
+
+networks:
+  proxy-network:
+    name: proxy-network
+
+services:
+
+  # container for sending log to Loki (remote)
+  fluentd:
+    image: fluent/fluentd:v1.14
+    container_name: fluentd
+
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+    networks:
+      - proxy-network
+
+    environment:
+      FLUENT_CONF: ./fluent.conf
+      LOKI_URL: ""
+      LOKI_USERNAME: ""
+      LOKI_PASSWORD: ""
+
+    volumes:
+      - ./log/bungeecord/chat:/var/log/bungeecord/chat
+
+    deploy:
+      resources:
+        limits:
+          memory: 64m
+
+    restart: always
+
+
+  # minecraft proxy server
+  bungeecord:
+    image: itzg/bungeecord
+    container_name: bungeecord
+
+    ports:
+      - "25565:25577"
+
+    networks:
+      - proxy-network
+
+    environment:
+      BUNGEE_JAR_REVISION: "1"
+      # define an optional prefix for your env variables you want to replace
+      REPLACE_ENV_VARIABLES: "FALSE"
+      MEMORY: "256m"
+      INIT_MEMORY: "256m"
+      ENABLE_RCON: "true"
+      TZ: "UTC"
+
+    volumes:
+      - ./log/bungeecord/chat/:/server/plugins/LunaChat/logs
+
+    deploy:
+      resources:
+        limits:
+          memory: 384m
+
+    # send container log to fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "localhost:24224"
+        tag: "container.{{.Name}}"
+
+    depends_on:
+      - fluentd
+
+    restart: always
