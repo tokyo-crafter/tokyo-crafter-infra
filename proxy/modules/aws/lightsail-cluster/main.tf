@@ -26,11 +26,8 @@ resource "aws_lightsail_key_pair" "ssh-key" {
 ## create private_key file
 resource "local_file" "private_key" {
   filename          = "./ssh/${local.private_key_file_name}"
+  file_permission   = "0600"
   sensitive_content = replace(var.ssh_private_key, "\\n", "\n")
-
-  provisioner "local-exec" {
-    command = "chmod 0600 ./ssh/${local.private_key_file_name}"
-  }
 }
 
 ## create lightsail instance
